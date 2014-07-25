@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SocketSlide</title>
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- SmartAddon.com Verification -->
+    <meta name="smartaddon-verification" content="936e8d43184bc47ef34e25e426c508fe" />
+    <link rel="shortcut icon" href="favicon_16.ico"/>
+    <link rel="bookmark" href="favicon_16.ico"/>
+    <!-- site css -->
+    <link rel="stylesheet" href="css/site.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
+    <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/socket/js/site.min.js"></script>
+    <script src="/socket/js/jquery-2.1.1.min.js"></script>
+<script>
+$(document).ready(function(){
+//初期値のnum
+var num = 1;
+//スライドの枚数
+var slide = 24;
+$("#next").click(function () { 
+if(num != 24){
+num ++;
+}
+ws.send(num);
+    });
+$("#prev").click(function () { 
+if(num != 1){
+num --;
+}
+ws.send(num);
+});
+ws.onmessage = function (event) {
+$("#message").html('<div class="item active"><img src="/socket/img/slider' + event.data + '.jpg"></div>');
+console.log(event.data);
+};
+});
+
+var host = window.document.location.host.replace(/:.*/, '');
+var ws = new WebSocket('ws://' + host + ':8181');
+</script>
+  </head>
+  <body style="background-color: #f1f2f6;">
+          <div class="col-md-12">
+            <div class="jumbotron">
+              <div>
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" id="message">
+                  <div class="item active"><img src="/socket/img/slider1.jpg"></div>
+                </div>
+                <a class="left carousel-control" href="#" data-slide="prev">
+                  <span id="prev" class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#" data-slide="next">
+                  <span id="next" class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+              </div>
+              <div class="jumbotron-contents">
+                <h1>Implementing the HTML and CSS into your user interface project</h1>
+                <h2>HTML Structure</h2>
+                <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                <h2>CSS Structure</h2>
+                <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>
